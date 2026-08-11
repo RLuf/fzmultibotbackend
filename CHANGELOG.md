@@ -28,3 +28,7 @@
 - **DeepHat-V1-7B é pessoal**: removido do túnel; movido pro hermano (papaimach),
   servido só pela VPN (llama-server via bundle portátil em ~/rpc-bundle).
 - Unit antiga salva em `archived/fzbots-llama.service.deephat-2026-08-11`.
+
+### Validado (2026-08-11)
+- Teste positivo pelo túnel confirmado por cliente na rede 138.186.228.0/24
+  (IP .18) com Service Token: /health, /v1/models e chat OK.
