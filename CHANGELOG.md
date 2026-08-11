@@ -19,3 +19,12 @@
 
 ### Security
 - Nenhuma porta aberta no roteador; RPC/distribuído (hermano) fora do túnel.
+
+## [0.1.1] — 2026-08-11
+
+### Changed
+- Bot público (fzbots) agora usa **Qwen3-1.7B Q4_K_M** (unsloth, 1,1 GB) —
+  modelo dedicado pra tarefa, ~1,6 GB de VRAM.
+- **DeepHat-V1-7B é pessoal**: removido do túnel; movido pro hermano (papaimach),
+  servido só pela VPN (llama-server via bundle portátil em ~/rpc-bundle).
+- Unit antiga salva em `archived/fzbots-llama.service.deephat-2026-08-11`.
