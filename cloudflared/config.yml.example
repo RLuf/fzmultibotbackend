@@ -1,0 +1,8 @@
+tunnel: <TUNNEL_ID>
+credentials-file: /root/.cloudflared/<TUNNEL_ID>.json
+
+# fzmultibotbackend — um hostname por bot; cada bot = um llama-server numa porta local
+ingress:
+  - hostname: fzbots.rogerluft.com.br
+    service: http://127.0.0.1:8081
+  - service: http_status:404

@@ -1,0 +1,9 @@
+archived/
+*.log
+*.gguf
+# segredos NUNCA no repo
+*.pem
+*token*
+*secret*
+*.json.bak
+.env
