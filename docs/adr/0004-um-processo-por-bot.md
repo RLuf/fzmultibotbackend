@@ -8,8 +8,8 @@ com o modelo que escolher. Sem LXC/containers.
 **Porquê**: pedido do dono ("da forma mais simples possível, sem lxc se possível").
 O isolamento necessário (falha de um bot não derruba outro; modelos independentes)
 o processo + systemd já dão. Container acrescentaria camada de operação sem
-benefício proporcional nesta escala. GPUStack foi descartado antes (não executa
-o split RPC; projeto pangeia documenta).
+benefício proporcional nesta escala. Orquestradores prontos foram avaliados e
+descartados antes.
 
 **Consequência**: escala limitada pela VRAM da 2060 (6 GB) — conferida pelo
-aplicar.sh. Modelos grandes têm caminho documentado (RPC pra GPU remota, pangeia).
+aplicar.sh. Modelos grandes têm caminho (RPC do llama.cpp pra GPU remota).

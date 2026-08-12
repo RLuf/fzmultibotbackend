@@ -14,5 +14,5 @@ Each bot is independent: 1 hostname + 1 llama-server + 1 model of its choice.
 4. **Test** with the Service Token headers against `https://<hostname>/health`.
 5. Update the bot table in README and the CHANGELOG.
 
-Large models (King 11 GB) need the remote GPU (hermano via llama.cpp RPC — see
-the pangeia project, `docs/pt/cluster-llamacpp-rpc.md`).
+Models larger than the local GPU's VRAM can use a remote GPU through llama.cpp
+RPC (optional feature, out of this scope).

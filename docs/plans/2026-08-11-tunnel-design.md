@@ -22,16 +22,15 @@ Base do futuro servidor de bots.
    SEM recompilar. Mesmos parâmetros de hoje, só `--host 127.0.0.1`.
    Vira serviço systemd `fzbots-llama.service` (hoje é nohup solto).
    Efeito: acesso via LAN 192.168.0.23:8081 deixa de existir; tudo pelo túnel.
-2. **Cert Cloudflare**: reaproveitado de `walker:/home/rluft/.cloudflared/cert.pem`
-   (domínio rogerluft.com.br) — sem login no navegador.
+2. **Cert Cloudflare**: reaproveitado de outro servidor da conta (mesmo domínio)
+   — sem login no navegador.
 3. **Túnel NOVO e separado** `fzbots` → `fzbots.rogerluft.com.br`.
-   REGRA: não tocar no túnel existente do walker (6e4cc4af…) nem nos hostnames
-   fzmonitor/drjose/petshop/5galaxia/drandres.
+   REGRA: não tocar nos túneis e hostnames já existentes na conta.
 4. **Access**: aplicação self-hosted em fzbots.rogerluft.com.br, política
    Service Auth (Service Token) + require IP 138.186.228.0/24. Sem credencial → 403.
 5. **Segredos**: nunca no repo nem na conversa. Ficam em
    `/root/walker02-tunnel-access.txt` (root:root 600) e `/etc/cloudflared/`.
-6. **RPC/distribuído** (hermano 10.8.0.4:50052): fora do túnel, intocado.
+6. **RPC/distribuído** (GPU remota): fora do túnel, intocado.
 
 ## Estado anterior (pro undo)
 Ver `archived/estado-anterior-2026-08-11.md`.

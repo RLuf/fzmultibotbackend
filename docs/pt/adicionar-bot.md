@@ -25,5 +25,5 @@ Cada bot é independente: 1 hostname + 1 llama-server + 1 modelo (escolha livre)
 
 ## Modelos disponíveis no disco
 
-Ver tabela no README. Modelos grandes (King 11 GB) precisam da GPU remota
-(hermano via RPC — ver projeto pangeia, `docs/pt/cluster-llamacpp-rpc.md`).
+Ver tabela no README. Modelos maiores que a VRAM da GPU local podem usar GPU
+remota via RPC do llama.cpp (recurso opcional, fora deste escopo).

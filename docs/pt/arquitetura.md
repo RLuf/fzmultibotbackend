@@ -36,5 +36,5 @@ graph TD
 - Bot escuta só em `127.0.0.1` — a única porta pro mundo é o túnel.
 - 1 bot = 1 hostname + 1 porta + 1 unit + 1 modelo (isolamento por processo).
 - `bots.yml` → `aplicar.sh` é o único caminho de mudança de units/ingress.
-- Modelos pessoais do dono (ex.: DeepHat) **nunca** entram no túnel.
+- Modelos privados **nunca** entram no túnel — só o que está no `bots.yml`.
 - Segurança adicional é tratada pelo dono em outras camadas — não neste repo.

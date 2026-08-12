@@ -33,8 +33,8 @@ Detalhes: [`docs/pt/arquitetura.md`](docs/pt/arquitetura.md) · Decisões e porq
 |---|---|---|---|---|
 | fzbots | fzbots.rogerluft.com.br | 8081 | Qwen3-1.7B Q4_K_M (~1,6 GB VRAM) | bots/sites |
 
-**Modelos pessoais NÃO entram no túnel.** O DeepHat-V1-7B (uso pessoal do dono)
-roda só no hermano/papaimach, acessível apenas pela VPN — nunca por hostname público.
+**Modelos privados NÃO entram no túnel** — só os bots declarados no `bots.yml`
+ganham hostname público.
 
 ## Operação
 

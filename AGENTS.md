@@ -5,8 +5,8 @@
    copie/mova o arquivo pra `archived/` (que está no .gitignore). Sem exceção.
 2. **Nunca gravar segredos no repo nem mostrar na conversa**: tokens, certs e
    credenciais ficam em `/root/` com permissão 600. O repo só tem `.example`.
-3. **Não tocar nos túneis dos outros servidores** (walker: fzmonitor, drjose,
-   petshop, 5galaxia, drandres). Este projeto só gerencia o túnel `fzbots`.
+3. **Não tocar nos túneis de outros servidores da conta.** Este projeto só
+   gerencia o túnel `fzbots`.
 4. **Não recompilar o llama.cpp** sem pedido explícito — usar o binário de
    `/home/dev/null/llama.cpp/build/bin/`.
 5. **Não mexer no DNS local** do walker02 (resolv.conf estático do dono).

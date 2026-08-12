@@ -5,7 +5,7 @@
 ### Added
 - Projeto criado: walker02 como backend de bots multi-modelo.
 - `fzbots-llama.service` (systemd): llama-server (binário existente, sem
-  recompilar) com DeepHat-V1-7B em `127.0.0.1:8081` — antes era nohup em 0.0.0.0.
+  recompilar) servindo em `127.0.0.1:8081` — antes era processo solto em 0.0.0.0.
 - cloudflared 2026.7.3 instalado; túnel nomeado `fzbots`
   (80ff35e6-f060-41e3-b986-de8df30fb3b5) → `fzbots.rogerluft.com.br`,
   serviço systemd, cert reaproveitado do walker (só leitura, túneis existentes intocados).
@@ -18,15 +18,15 @@
 - Acesso LAN direto `192.168.0.23:8081` desativado (API só em loopback).
 
 ### Security
-- Nenhuma porta aberta no roteador; RPC/distribuído (hermano) fora do túnel.
+- Nenhuma porta aberta no roteador; serviços fora do bots.yml ficam fora do túnel.
 
 ## [0.1.1] — 2026-08-11
 
 ### Changed
 - Bot público (fzbots) agora usa **Qwen3-1.7B Q4_K_M** (unsloth, 1,1 GB) —
   modelo dedicado pra tarefa, ~1,6 GB de VRAM.
-- **DeepHat-V1-7B é pessoal**: removido do túnel; movido pro hermano (papaimach),
-  servido só pela VPN (llama-server via bundle portátil em ~/rpc-bundle).
+- Modelo de uso privado removido do túnel e realocado fora deste servidor
+  (acesso somente por rede privada).
 - Unit antiga salva em `archived/fzbots-llama.service.deephat-2026-08-11`.
 
 ### Validado (2026-08-11)
@@ -64,3 +64,8 @@
   https://claude.ai/code/artifact/deb23b04-bae3-452b-8e71-62a0bbacf299
 - `scripts/mapa-mudou.sh`: refresh inteligente por sha256 (só republica se
   bots.yml ou arquitetura.md mudaram). Carimbo em `.mapa.sha256`.
+
+### Changed (sanitização pra apresentação)
+- Documentação limpa de nomes de modelos privados e de máquinas fora deste
+  servidor — apta pra apresentação de produto. Originais em archived/.
+- Mapa publicado atualizado na mesma URL.

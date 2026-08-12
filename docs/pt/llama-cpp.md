@@ -20,9 +20,9 @@ cmake -B build -DGGML_CUDA=ON -DGGML_RPC=ON \
 cmake --build build -j4 --target llama-server llama-cli ggml-rpc-server
 ```
 
-- `CUDA_ARCHITECTURES=75` = RTX 2060 (com PTX junto: roda na 3050/sm_86 via JIT,
-  primeira inferência lá é mais lenta).
-- `GGML_RPC=ON` habilita GPU remota (usada no projeto pangeia, fora deste escopo).
+- `CUDA_ARCHITECTURES=75` = RTX 2060 (com PTX junto: o binário também roda em
+  GPUs mais novas via JIT).
+- `GGML_RPC=ON` habilita GPU remota (recurso opcional, fora deste escopo).
 
 ## O que o llama-server dá pros bots
 
