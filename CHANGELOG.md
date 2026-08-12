@@ -32,3 +32,12 @@
 ### Validado (2026-08-11)
 - Teste positivo pelo túnel confirmado por cliente na rede 138.186.228.0/24
   (IP .18) com Service Token: /health, /v1/models e chat OK.
+
+## [0.2.0] — 2026-08-11
+
+### Added
+- **bots.yml**: fonte única da verdade dos bots (nome, hostname, porta, modelo,
+  VRAM) — recomendação do architecture-review.
+- **scripts/aplicar.sh**: gera units systemd + ingress do cloudflared a partir
+  do bots.yml, confere soma de VRAM e porta duplicada, arquiva versões antigas.
+- Fluxo de bot novo reduzido a: bloco no bots.yml + aplicar.sh (docs atualizadas).

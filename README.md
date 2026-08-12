@@ -34,6 +34,7 @@ roda só no hermano/papaimach, acessível apenas pela VPN — nunca por hostname
 ## Operação
 
 ```bash
+scripts/aplicar.sh      # aplica o bots.yml (fonte da verdade) no sistema
 scripts/status.sh       # saúde de tudo (serviços, túnel, GPU, API)
 scripts/test-tunnel.sh  # testes pelo túnel (lê credencial do arquivo 600)
 scripts/undo.sh         # desfaz tudo e volta ao estado anterior

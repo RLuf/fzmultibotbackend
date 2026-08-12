@@ -1,0 +1,11 @@
+# FONTE DA VERDADE dos bots do walker02.
+# Bot novo = adicionar um bloco aqui + rodar: scripts/aplicar.sh
+# A 2060 tem 6 GB — o aplicar.sh confere a soma de vram_estimada antes de subir.
+gpu_vram_gb: 6
+bots:
+  - nome: llama   # unit: fzbots-llama.service (bot público atual)
+    hostname: fzbots.rogerluft.com.br
+    porta: 8081
+    modelo: /root/.lmstudio/models/Qwen3-1.7B/Qwen3-1.7B-Q4_K_M.gguf
+    vram_estimada: 1.6
+    extra_args: "-ngl 99 -c 4096 -fa on"

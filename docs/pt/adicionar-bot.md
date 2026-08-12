@@ -4,17 +4,19 @@ Cada bot é independente: 1 hostname + 1 llama-server + 1 modelo (escolha livre)
 
 ## Passos (exemplo: bot "loja" com qwen na porta 8082)
 
-1. **Serviço do modelo** — copie `/etc/systemd/system/fzbots-llama.service` para
-   `fzbots-loja.service`, troque `-m <caminho-do-gguf>` e `--port 8082`
-   (mantenha `--host 127.0.0.1`). Cuide da VRAM: a 2060 tem 6 GB no total.
-   `systemctl daemon-reload && systemctl enable --now fzbots-loja`
-2. **Ingress** — em `/etc/cloudflared/config.yml`, adicione ANTES do 404:
+1. **bots.yml** (fonte da verdade, na raiz do repo) — adicione o bloco:
    ```yaml
-   - hostname: loja.rogerluft.com.br
-     service: http://127.0.0.1:8082
+   - nome: loja
+     hostname: loja.rogerluft.com.br
+     porta: 8082
+     modelo: /caminho/do/modelo.gguf
+     vram_estimada: 1.6
+     extra_args: "-ngl 99 -c 4096 -fa on"
    ```
-   Depois: `cloudflared tunnel route dns fzbots loja.rogerluft.com.br`
-   e `systemctl restart cloudflared`.
+2. **Aplicar** — `scripts/aplicar.sh` (gera unit + ingress, confere a VRAM,
+   guarda os antigos em archived/). Depois:
+   `systemctl enable --now fzbots-loja && systemctl restart cloudflared`
+   e (só na 1ª vez) `cloudflared tunnel route dns fzbots loja.rogerluft.com.br`.
 3. **Access** — crie app + Service Token próprios pro bot (mesmo formato do
    fzbots, via API com `/root/.cf-api-token`) — assim cada cliente tem sua
    credencial e dá pra revogar um sem derrubar os outros.
