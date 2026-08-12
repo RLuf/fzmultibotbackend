@@ -58,3 +58,9 @@
   unha — e retornam código de erro (servem de sonda). undo.sh lê IDs do Access
   do arquivo de credenciais.
 - AGENTS.md: regras 8 (conformidade total de docs), 9 (bots.yml fonte da verdade).
+
+### Added (mapa vivo)
+- Mapa do fluxo publicado como página (URL fixa, atualizada a cada mudança):
+  https://claude.ai/code/artifact/deb23b04-bae3-452b-8e71-62a0bbacf299
+- `scripts/mapa-mudou.sh`: refresh inteligente por sha256 (só republica se
+  bots.yml ou arquitetura.md mudaram). Carimbo em `.mapa.sha256`.
