@@ -8,14 +8,19 @@ seu próprio modelo.
 
 ## Como funciona
 
+```mermaid
+graph LR
+    C[Cliente autorizado] -->|HTTPS + Service Token| CF[Cloudflare Access]
+    X[Qualquer outro] -->|403| CF
+    CF -->|túnel fzbots| CD[cloudflared]
+    subgraph walker02
+        Y[bots.yml] -->|aplicar.sh| CD
+        CD --> B1[bot llama<br/>127.0.0.1:8081<br/>Qwen3-1.7B]
+        L[llama.cpp<br/>dependência vital] --- B1
+    end
 ```
-[ internet ] ──HTTPS──► Cloudflare (Access: Service Token + rede autorizada)
-                              │
-                    túnel "fzbots" (sem porta aberta no roteador)
-                              │
-[ walker02 ]  cloudflared ──► 127.0.0.1:8081  bot pessoal (DeepHat-V1-7B)
-                         └──► 127.0.0.1:####  próximos bots (1 porta = 1 modelo)
-```
+
+Detalhes: [`docs/pt/arquitetura.md`](docs/pt/arquitetura.md) · Decisões e porquês: [`docs/adr/`](docs/adr/) · llama.cpp: [`docs/pt/llama-cpp.md`](docs/pt/llama-cpp.md)
 
 - **1 bot = 1 hostname + 1 llama-server + 1 modelo.** Adicionar bot = nova
   entrada no ingress + novo serviço systemd (ver `docs/pt/adicionar-bot.md`).
@@ -51,8 +56,10 @@ Bot backend for walker02: local models (llama.cpp) served securely to the
 internet through Cloudflare Tunnel + Access. Each bot is independent and picks
 its own model.
 
-- **1 bot = 1 hostname + 1 llama-server + 1 model.** Adding a bot = new ingress
-  entry + new systemd unit (see `docs/en/add-bot.md`).
+- **1 bot = 1 hostname + 1 llama-server + 1 model.** Adding a bot = a block in
+  `bots.yml` + `scripts/aplicar.sh` (see `docs/en/add-bot.md`).
+- Architecture and ADRs (why each decision was made): `docs/pt/arquitetura.md`,
+  `docs/adr/`. The vital dependency (llama.cpp build): `docs/en/llama-cpp.md`.
 - The API only listens on `127.0.0.1` — no router ports opened.
 - Access requires a Service Token **and** an authorized source network;
   everything else gets 403.

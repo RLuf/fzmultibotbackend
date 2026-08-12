@@ -41,3 +41,20 @@
 - **scripts/aplicar.sh**: gera units systemd + ingress do cloudflared a partir
   do bots.yml, confere soma de VRAM e porta duplicada, arquiva versões antigas.
 - Fluxo de bot novo reduzido a: bloco no bots.yml + aplicar.sh (docs atualizadas).
+
+## [0.3.0] — 2026-08-12
+
+### Added
+- **llama.cpp oficialmente no escopo**: doc dedicada (`docs/pt/llama-cpp.md` +
+  EN), regra 10 no AGENTS.md, checagem do binário no `status.sh`.
+- **Documentação de arquitetura**: `docs/pt/arquitetura.md` (C4 níveis 1-2 em
+  mermaid, fluxo, invariantes) + 4 ADRs em `docs/adr/` (loopback, dupla camada,
+  bots.yml, 1 processo por bot).
+- README (PT/EN): diagrama mermaid na página inicial, links pra arquitetura/ADRs.
+
+### Changed
+- **Scripts multibot** (recomendações do architecture-review, antigos em archived/):
+  `status.sh`, `test-tunnel.sh` e `undo.sh` agora leem o bots.yml — zero ID na
+  unha — e retornam código de erro (servem de sonda). undo.sh lê IDs do Access
+  do arquivo de credenciais.
+- AGENTS.md: regras 8 (conformidade total de docs), 9 (bots.yml fonte da verdade).

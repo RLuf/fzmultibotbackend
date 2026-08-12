@@ -1,20 +1,40 @@
 #!/bin/bash
-# Desfaz TUDO deste projeto e volta o walker02 ao estado de 2026-08-10:
-# llama-server em nohup 0.0.0.0:8081, sem túnel, sem Access.
+# Desfaz o projeto no walker02 — MULTIBOT, sem ID na unha:
+#  - bots: lidos do bots.yml
+#  - IDs do Access: lidos de /root/walker02-tunnel-access.txt
+# NÃO toca nos outros túneis da conta (regra 3 do AGENTS.md).
+# Estado restaurado: llama-server solto em 0.0.0.0:8081 (archived/estado-anterior-*.md).
 set -x
-# 1. Serviços
-systemctl disable --now cloudflared fzbots-llama
-rm -f /etc/systemd/system/fzbots-llama.service; systemctl daemon-reload
-# 2. Túnel e DNS (só o fzbots — NÃO toca nos outros túneis da conta)
+cd "$(dirname "$0")/.."
+F=/root/walker02-tunnel-access.txt
+
+# 1. Serviços dos bots (do bots.yml) + túnel
+for nome in $(python3 -c "
+import yaml
+print(' '.join(b['nome'] for b in yaml.safe_load(open('bots.yml'))['bots']))"); do
+  systemctl disable --now "fzbots-$nome"
+  rm -f "/etc/systemd/system/fzbots-$nome.service"
+done
+systemctl disable --now cloudflared
+systemctl daemon-reload
+
+# 2. Túnel fzbots e só ele
 cloudflared tunnel delete -f fzbots
-echo "DNS: apagar o CNAME fzbots.rogerluft.com.br no painel (route dns não tem delete via cert)"
-# 3. Access (precisa do API token)
-CF=$(cat /root/.cf-api-token); ACC=6955cc8b42f724d7c15671000441f14e
-APP=d39df202-0d92-4cd8-b804-dcb4315ee174
-ST=$(grep '^Service Token ID:' /root/walker02-tunnel-access.txt | cut -d' ' -f4)
-curl -s -X DELETE -H "Authorization: Bearer $CF" https://api.cloudflare.com/client/v4/accounts/$ACC/access/apps/$APP
-curl -s -X DELETE -H "Authorization: Bearer $CF" https://api.cloudflare.com/client/v4/accounts/$ACC/access/service_tokens/$ST
-# 4. Volta o llama como era (ver archived/estado-anterior-2026-08-11.md)
+echo "DNS: apagar os CNAMEs dos bots no painel (route dns não tem delete via cert)"
+
+# 3. Access — apps e service tokens listados no arquivo de credenciais
+CF=$(cat /root/.cf-api-token)
+ACC=$(grep -m1 '^Conta Cloudflare:' "$F" | awk '{print $3}')
+for APP in $(grep '^App Access:' "$F" | awk '{print $3}'); do
+  curl -s -X DELETE -H "Authorization: Bearer $CF" \
+    "https://api.cloudflare.com/client/v4/accounts/$ACC/access/apps/$APP"
+done
+for ST in $(grep '^Service Token ID:' "$F" | awk '{print $4}'); do
+  curl -s -X DELETE -H "Authorization: Bearer $CF" \
+    "https://api.cloudflare.com/client/v4/accounts/$ACC/access/service_tokens/$ST"
+done
+
+# 4. Volta o llama como era antes do projeto
 nohup /home/dev/null/llama.cpp/build/bin/llama-server \
   -m /root/.lmstudio/models/DeepHat/DeepHat-V1-7B.Q4_K_M.gguf \
   -ngl 99 -c 4096 -fa on --host 0.0.0.0 --port 8081 > /root/deephat.log 2>&1 &
