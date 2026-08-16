@@ -2,6 +2,7 @@
 # Lê bots.yml (fonte da verdade) e aplica:
 #  - gera 1 unit systemd por bot (fzbots-<nome>.service, 127.0.0.1:<porta>)
 #  - gera o ingress do /etc/cloudflared/config.yml (túnel fzbots intacto)
+#    bots com tunel: false ficam só no systemd, fora do Cloudflare
 #  - confere a soma de VRAM antes de subir
 #  - guarda os arquivos antigos em archived/ (REGRA DE OURO)
 # NÃO mexe em DNS nem em Access — bot novo ainda precisa de:
@@ -56,7 +57,11 @@ WantedBy=multi-user.target
 # ingress do cloudflared
 cf = pathlib.Path('/etc/cloudflared/config.yml')
 atual = yaml.safe_load(cf.read_text())
-ingress = [{'hostname': b['hostname'], 'service': f"http://127.0.0.1:{b['porta']}"} for b in bots]
+publicos = [b for b in bots if b.get('tunel', True) is not False]
+for b in publicos:
+    if not b.get('hostname'):
+        sys.exit(f"ERRO: bot público sem hostname: {b['nome']}. Nada aplicado.")
+ingress = [{'hostname': b['hostname'], 'service': f"http://127.0.0.1:{b['porta']}"} for b in publicos]
 ingress.append({'service': 'http_status:404'})
 if atual.get('ingress') != ingress:
     shutil.copy(cf, arch / f"config.yml.{stamp}")

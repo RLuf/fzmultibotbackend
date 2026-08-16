@@ -26,7 +26,7 @@ cmake --build build -j4 --target llama-server llama-cli ggml-rpc-server
 
 ## O que o llama-server dá pros bots
 
-- API OpenAI-compat: `/v1/chat/completions`, `/v1/models`
+- API OpenAI-compat: `/v1/chat/completions`, `/v1/models`, e `/v1/embeddings` quando o bot sobe com `--embedding`
 - API crua: `/completion` · Saúde: `/health` · Webui embutida na porta do bot
 - `--parallel N` se um bot precisar atender N conversas simultâneas no mesmo modelo
 

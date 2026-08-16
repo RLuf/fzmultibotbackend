@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0] — 2026-08-16
+
+### Added
+- Campo `tunel: false` no `bots.yml`: bot interno (unit + loopback) sem ingress
+  no Cloudflare. ADR 0005.
+- Bot `embed` (porta 8082): EmbeddingGemma 300M QAT Q8_0, só embeddings,
+  fora do túnel. Modelo em `/root/.lmstudio/models/embeddinggemma-300m/`.
+- `aplicar.sh` / `test-tunnel.sh` respeitam o campo. Docs PT/EN atualizados.
+
 ## [0.1.0] — 2026-08-11
 
 ### Added

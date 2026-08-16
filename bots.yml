@@ -9,3 +9,9 @@ bots:
     modelo: /root/.lmstudio/models/Qwen3-1.7B/Qwen3-1.7B-Q4_K_M.gguf
     vram_estimada: 1.6
     extra_args: "-ngl 99 -c 4096 -fa on"
+  - nome: embed   # unit: fzbots-embed.service — só loopback, fora do túnel
+    porta: 8082
+    modelo: /root/.lmstudio/models/embeddinggemma-300m/embeddinggemma-300m-qat-Q8_0.gguf
+    vram_estimada: 0.5
+    extra_args: "-ngl 99 -c 2048 --embedding --alias embeddinggemma-300m"
+    tunel: false

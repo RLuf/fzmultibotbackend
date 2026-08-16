@@ -14,5 +14,12 @@ Each bot is independent: 1 hostname + 1 llama-server + 1 model of its choice.
 4. **Test** with the Service Token headers against `https://<hostname>/health`.
 5. Update the bot table in README and the CHANGELOG.
 
+## Local-only bot (no internet)
+
+Internal service (embedder, private model): add it to `bots.yml` with
+`tunel: false` and **no** hostname. `aplicar.sh` writes the unit and leaves the
+Cloudflare ingress untouched. Then: `systemctl enable --now fzbots-<name>`.
+No DNS route, no Access app.
+
 Models larger than the local GPU's VRAM can use a remote GPU through llama.cpp
 RPC (optional feature, out of this scope).

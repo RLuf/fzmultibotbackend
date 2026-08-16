@@ -20,7 +20,8 @@
    que falta.
 9. **bots.yml é a fonte da verdade**: units systemd e ingress do cloudflared
    NÃO se editam na mão — edita-se o `bots.yml` e roda-se `scripts/aplicar.sh`.
-   Editar direto faz o repo mentir.
+   Editar direto faz o repo mentir. Bot só local: `tunel: false` (sem hostname,
+   fora do ingress). O aplicar.sh só manda pro Cloudflare quem não tem isso.
 10. **llama.cpp é dependência vital do projeto**: binário em
    `/home/dev/null/llama.cpp/build/bin/` (build próprio, CUDA+RPC, arch 75).
    Está DENTRO do escopo: documentado em `docs/pt/llama-cpp.md`, verificado

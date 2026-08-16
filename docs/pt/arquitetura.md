@@ -17,10 +17,11 @@ graph LR
 graph TD
     subgraph walker02
         CD[cloudflared<br/>systemd] --> B1[fzbots-llama<br/>127.0.0.1:8081<br/>Qwen3-1.7B]
-        CD -.futuro.-> B2[fzbots-&lt;bot2&gt;<br/>127.0.0.1:&lt;porta&gt;<br/>modelo próprio]
         Y[bots.yml<br/>FONTE DA VERDADE] -->|scripts/aplicar.sh| CD
         Y -->|scripts/aplicar.sh| B1
+        Y -->|aplicar.sh tunel:false| B3[fzbots-embed<br/>127.0.0.1:8082<br/>EmbeddingGemma 300M]
         L[llama.cpp build<br/>dependência vital] --- B1
+        L --- B3
     end
 ```
 
@@ -36,5 +37,6 @@ graph TD
 - Bot escuta só em `127.0.0.1` — a única porta pro mundo é o túnel.
 - 1 bot = 1 hostname + 1 porta + 1 unit + 1 modelo (isolamento por processo).
 - `bots.yml` → `aplicar.sh` é o único caminho de mudança de units/ingress.
-- Modelos privados **nunca** entram no túnel — só o que está no `bots.yml`.
+- Modelos privados **nunca** entram no túnel — só bot com hostname e sem `tunel: false` ganha ingress.
+- Bot interno (`tunel: false`) existe no yml e no systemd; o Cloudflare não o vê.
 - Segurança adicional é tratada pelo dono em outras camadas — não neste repo.

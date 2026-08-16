@@ -25,6 +25,8 @@ while IFS=$'\t' read -r nome hostname; do
 done < <(python3 -c "
 import yaml
 for b in yaml.safe_load(open('bots.yml'))['bots']:
+    if b.get('tunel', True) is False:
+        continue
     print(f\"{b['nome']}\t{b['hostname']}\")")
 
 [ $FALHAS = 0 ] && echo "TUDO OK" || echo "$FALHAS FALHA(S)"

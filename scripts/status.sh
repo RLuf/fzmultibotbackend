@@ -32,7 +32,7 @@ while IFS=$'\t' read -r nome porta hostname; do
 done < <(python3 -c "
 import yaml
 for b in yaml.safe_load(open('bots.yml'))['bots']:
-    print(f\"{b['nome']}\t{b['porta']}\t{b['hostname']}\")")
+    print(f\"{b['nome']}\t{b['porta']}\t{b.get('hostname') or '-'}\")")
 
 echo "== GPU =="
 nvidia-smi --query-gpu=name,memory.used,memory.total --format=csv,noheader

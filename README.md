@@ -16,7 +16,9 @@ graph LR
     subgraph walker02
         Y[bots.yml] -->|aplicar.sh| CD
         CD --> B1[bot llama<br/>127.0.0.1:8081<br/>Qwen3-1.7B]
+        Y --> B2[bot embed<br/>127.0.0.1:8082<br/>privado]
         L[llama.cpp<br/>dependência vital] --- B1
+        L --- B2
     end
 ```
 
@@ -32,9 +34,10 @@ Detalhes: [`docs/pt/arquitetura.md`](docs/pt/arquitetura.md) · Decisões e porq
 | Bot | Hostname | Porta local | Modelo | Uso |
 |---|---|---|---|---|
 | fzbots | fzbots.rogerluft.com.br | 8081 | Qwen3-1.7B Q4_K_M (~1,6 GB VRAM) | bots/sites |
+| embed (privado) | — (só 127.0.0.1) | 8082 | EmbeddingGemma 300M Q8_0 (~0,5 GB VRAM) | memória do Metadron |
 
-**Modelos privados NÃO entram no túnel** — só os bots declarados no `bots.yml`
-ganham hostname público.
+**Modelos privados NÃO entram no túnel.** Bot com `tunel: false` fica no yml e no
+systemd; o Cloudflare não o vê.
 
 ## Operação
 
