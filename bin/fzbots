@@ -1,0 +1,4 @@
+#!/bin/bash
+# Entrypoint: roda o pacote fzbots do repo onde este arquivo está (segue symlink).
+REPO="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
+PYTHONPATH="$REPO${PYTHONPATH:+:$PYTHONPATH}" exec python3 -m fzbots "$@"

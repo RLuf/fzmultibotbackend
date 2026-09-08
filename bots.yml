@@ -1,17 +1,32 @@
-# FONTE DA VERDADE dos bots do walker02.
-# Bot novo = adicionar um bloco aqui + rodar: scripts/aplicar.sh
-# A 2060 tem 6 GB — o aplicar.sh confere a soma de vram_estimada antes de subir.
-gpu_vram_gb: 6
+# FONTE DA VERDADE dos bots do walker02. Só o pacote fzbots lê este arquivo.
+# Bot novo = um bloco aqui + `fzbots apply --restart` (ou pela TUI: fzbots tui).
+# Todo bot escuta em 0.0.0.0 (local + rede). Só quem tem hostname entra no túnel.
+llama_bin: /home/dev/null/llama.cpp/build/bin/llama-server
+modelos_dir: /root/.lmstudio/models
+gpu_vram_gb: 6          # a 2060 tem 6 GB — a trava soma isto com o que terceiros usam na GPU
+lan_ip: auto            # IP mostrado nas URLs de rede (auto = primeira interface física)
 bots:
-  - nome: llama   # unit: fzbots-llama.service (bot público atual)
+  - nome: llama         # unit fzbots-llama.service — bot público dos sites
+    descricao: bot público dos sites (chat)
+    site: sites
     hostname: fzbots.rogerluft.com.br
     porta: 8081
     modelo: /root/.lmstudio/models/Qwen3-1.7B/Qwen3-1.7B-Q4_K_M.gguf
     vram_estimada: 1.6
     extra_args: "-ngl 99 -c 4096 -fa on"
-  - nome: embed   # unit: fzbots-embed.service — só loopback, fora do túnel
+  - nome: embed         # unit fzbots-embed.service — só local/rede, fora do túnel
+    descricao: embeddings (memória do openclaw)
     porta: 8082
     modelo: /root/.lmstudio/models/embeddinggemma-300m/embeddinggemma-300m-qat-Q8_0.gguf
     vram_estimada: 0.5
-    extra_args: "-ngl 99 -c 2048 --embedding --alias embeddinggemma-300m"
+    extra_args: "-ngl 99 -c 2048 -b 2048 -ub 2048 --embedding --alias embeddinggemma-300m"
     tunel: false
+    consumidores: [openclaw]
+  - nome: deephat       # unit fzbots-deephat.service — serve o openclaw; NUNCA público
+    descricao: modelo do openclaw (nunca entra no túnel nem atende sites)
+    porta: 8084
+    modelo: /root/.lmstudio/models/DeepHat/DeepHat-V1-7B.Q4_K_M.gguf
+    vram_estimada: 3.3
+    extra_args: "--fit on --fit-target 256 --fit-ctx 2048 -c 2048 -fa on --alias DeepHat-V1-7B"
+    tunel: false
+    consumidores: [openclaw]

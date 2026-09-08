@@ -7,3 +7,5 @@ archived/
 *secret*
 *.json.bak
 .env
+__pycache__/
+*.pyc

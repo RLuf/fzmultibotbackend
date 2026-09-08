@@ -1,5 +1,8 @@
 # Design — fzmultibotbackend: llama.cpp atrás de Cloudflare Tunnel
 
+> Histórico. O bind mudou para `0.0.0.0` (ADR 0006) e o undo virou `fzbots undo`, que só
+> remove units/ingress gerados e não religa nada no lugar. Ver `docs/pt/arquitetura.md`.
+
 Data: 2026-08-11. Validado com o dono na conversa.
 
 ## Objetivo
